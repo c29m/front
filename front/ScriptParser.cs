@@ -8,9 +8,10 @@ namespace front
     {
         public ModuleInfo GetModuleInfo(string script)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(script, "^[\"'](.*)[\"'];\r?\n", RegexOptions.Singleline);
-            if (!match.Success) return new ModuleInfo() { Content = script, Dependencies = new List<string>() };
-            var directives = match.Groups[1].Value.Split(';');
+            var alreadyModuleDef = Regex.Match(script, "^require.define\\(", RegexOptions.Singleline);
+            var directiveHeader = Regex.Match(script, "^[\"'](.*)[\"'];\r?\n", RegexOptions.Singleline);
+            if (alreadyModuleDef.Success || !directiveHeader.Success) return new ModuleInfo() { Content = script, Dependencies = new List<string>(), Packaged=true};
+            var directives = directiveHeader.Groups[1].Value.Split(';');
             var moduleInfo = new ModuleInfo();
             foreach (var directive in directives)
             {
@@ -27,7 +28,7 @@ namespace front
                     moduleInfo.Name = value;
                 }
             }
-            moduleInfo.Content = script.Substring(match.Index + match.Value.Length, script.Length - match.Value.Length);
+            moduleInfo.Content = script.Substring(directiveHeader.Index + directiveHeader.Value.Length, script.Length - directiveHeader.Value.Length);
             return moduleInfo;
         }
     }
