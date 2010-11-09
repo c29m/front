@@ -21,16 +21,23 @@ namespace front
 
             var isModule = false;
             var filePath = modulePath;
-            if (!modulePath.EndsWith(".js") && (isModule = true))
-                filePath += ".js";
+            if (!modulePath.EndsWith(".js")) { 
+                if(modulePath.EndsWith(".html") || modulePath.EndsWith(".css")){
+                    isModule = false;
+                }else{
+                    isModule = true;
+                    filePath = modulePath + ".js";
+                }
+            }
+                
             var path = string.IsNullOrEmpty(_rootPath) ? HttpContext.Current.Server.MapPath(filePath) : Path.Combine(_rootPath, filePath.Replace("~/", "").Replace("/", "\\"));
             var script = System.IO.File.ReadAllText(path);
             if(!isModule)
                 return script;
             var moduleInfo = new ScriptParser().GetModuleInfo(script);
-
             moduleInfo.Name = modulePath.Substring(8, modulePath.Length - 8);
-            return _modulePackager.GetPackage(moduleInfo);
+            
+            return moduleInfo.Packaged ? moduleInfo.Content : _modulePackager.GetPackage(moduleInfo);
         }
     }
 }

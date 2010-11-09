@@ -14,7 +14,7 @@ namespace front
 
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "text/javascript";
+            context.Response.ContentType = context.Request.AcceptTypes[0];
             context.Response.Write(_scriptResolver.ProvideScript(context.Request.AppRelativeCurrentExecutionFilePath));
         }
 
