@@ -15,7 +15,7 @@ namespace front
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/javascript";
-            context.Response.Write(_scriptResolver.ProvideScript(context.Request.Url.AbsolutePath));
+            context.Response.Write(_scriptResolver.ProvideScript(context.Request.AppRelativeCurrentExecutionFilePath));
         }
 
         public bool IsReusable { get; private set; }

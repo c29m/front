@@ -13,7 +13,7 @@ namespace front
         }
         public string ProvideScript(string modulePath)
         {
-            if(!modulePath.StartsWith("/script"))
+            if(!modulePath.StartsWith("~/script"))
                 throw new InvalidOperationException("script not in default location");
 
             var isModule = false;
