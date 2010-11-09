@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace front
 {
@@ -8,7 +9,7 @@ namespace front
         public ModuleInfo GetModuleInfo(string script)
         {
             var match = System.Text.RegularExpressions.Regex.Match(script, "^[\"'](.*)[\"'];\r?\n", RegexOptions.Singleline);
-            if (!match.Success) return null;
+            if (!match.Success) return new ModuleInfo() { Content = script, Dependencies = new List<string>() };
             var directives = match.Groups[1].Value.Split(';');
             var moduleInfo = new ModuleInfo();
             foreach (var directive in directives)

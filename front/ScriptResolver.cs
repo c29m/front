@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Web;
+using System.IO;
 
 namespace front
 {
     public class ScriptResolver
     {
         private readonly ModulePackager _modulePackager;
+        private readonly string _rootPath;
 
-        public ScriptResolver(ModulePackager modulePackager)
+        public ScriptResolver(ModulePackager modulePackager, string rootPath)
         {
             _modulePackager = modulePackager;
+            _rootPath = rootPath;
         }
         public string ProvideScript(string modulePath)
         {
@@ -20,7 +23,7 @@ namespace front
             var filePath = modulePath;
             if (!modulePath.EndsWith(".js") && (isModule = true))
                 filePath += ".js";
-            var path = HttpContext.Current.Server.MapPath(filePath);
+            var path = string.IsNullOrEmpty(_rootPath) ? HttpContext.Current.Server.MapPath(filePath) : Path.Combine(_rootPath, filePath.Replace("~/", "").Replace("/", "\\"));
             var script = System.IO.File.ReadAllText(path);
             if(!isModule)
                 return script;

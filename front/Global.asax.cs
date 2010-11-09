@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Configuration;
 
 namespace front
 {
@@ -13,7 +14,7 @@ namespace front
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            var route = new Route("script/{*script}", new ScriptRouteHandler(new ScriptHandler(new ScriptResolver(new ModulePackager()))));
+            var route = new Route("script/{*script}", new ScriptRouteHandler(new ScriptHandler(new ScriptResolver(new ModulePackager(), WebConfigurationManager.AppSettings["root"]))));
             routes.Add(route);
        
             routes.MapRoute(
