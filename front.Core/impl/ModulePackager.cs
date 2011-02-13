@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace front
+namespace front.Core.impl
 {
     public class CombiningModulePackager : IModulePackager
     {
