@@ -5,17 +5,17 @@ namespace front
 {
     public class ScriptHandler: IHttpHandler
     {
-        private readonly ScriptResolver _scriptResolver;
+        private readonly IModulePackager _modulePackager;
         
-        public ScriptHandler(ScriptResolver scriptResolver)
+        public ScriptHandler(IModulePackager modulePackager)
         {
-            _scriptResolver = scriptResolver;
+            _modulePackager = modulePackager;
         }
 
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = context.Request.AcceptTypes[0];
-            context.Response.Write(_scriptResolver.ProvideScript(context.Request.AppRelativeCurrentExecutionFilePath));
+            context.Response.Write(_modulePackager.GetPackage(context.Request.AppRelativeCurrentExecutionFilePath));
         }
 
         public bool IsReusable { get; private set; }

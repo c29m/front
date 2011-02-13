@@ -1,41 +1,22 @@
 ﻿using System;
-using System.Web;
-using System.IO;
 
 namespace front
 {
     public class ScriptResolver
     {
-        private readonly ModulePackager _modulePackager;
+        private readonly IModulePackager _modulePackager;
+        private readonly ScriptModuleRepository _moduleRepository;
         private readonly string _rootPath;
 
-        public ScriptResolver(ModulePackager modulePackager, string rootPath)
+        public ScriptResolver(IModulePackager modulePackager, ScriptModuleRepository moduleRepository)
         {
             _modulePackager = modulePackager;
-            _rootPath = rootPath;
+            _moduleRepository = moduleRepository;
+            _rootPath = "";
         }
         public string ProvideScript(string modulePath)
         {
-            if(!modulePath.StartsWith("~/script"))
-                throw new InvalidOperationException("script not in default location");
-
-            var isModule = false;
-            var filePath = modulePath;
-            if (!modulePath.EndsWith(".js")) { 
-                if(modulePath.EndsWith(".html") || modulePath.EndsWith(".css")){
-                    isModule = false;
-                }else{
-                    isModule = true;
-                    filePath = modulePath + ".js";
-                }
-            }
-                
-            var path = string.IsNullOrEmpty(_rootPath) ? HttpContext.Current.Server.MapPath(filePath) : Path.Combine(_rootPath, filePath.Replace("~/", "").Replace("/", "\\"));
-            var script = System.IO.File.ReadAllText(path);
-            if(!isModule)
-                return script;
-            var moduleInfo = new ScriptParser().GetModuleInfo(script);
-            moduleInfo.Name = modulePath.Substring(8, modulePath.Length - 8);
+            var moduleInfo = _moduleRepository.GetModule(modulePath);
             
             return moduleInfo.Packaged ? moduleInfo.Content : _modulePackager.GetPackage(moduleInfo);
         }

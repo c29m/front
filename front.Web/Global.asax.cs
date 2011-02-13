@@ -1,22 +1,33 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Configuration;
+using front.Core.impl;
 
-namespace front
+namespace front.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new HandleErrorAttribute());
+        }
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            var route = new Route("script/{*script}", new ScriptRouteHandler(new ScriptHandler(new CombiningModulePackager(new ScriptModuleRepository(new ScriptRepository(), new ModuleParser()), new CommonJsFormatter()))));
-            routes.Add(route);
-       
+
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            var route = new Route("script/{*script}", new ScriptRouteHandler(new ScriptHandler(
+                new CombiningModulePackager(new ScriptModuleRepository(new ScriptRepository(new PathResolver(WebConfigurationManager.AppSettings["root"])), new ModuleParser()), new CommonJsFormatter()), new ModulePathExtractor(WebConfigurationManager.AppSettings["pathPrefix"]))));
+            routes.Add(route);  
+
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
@@ -24,26 +35,13 @@ namespace front
             );
 
         }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
+            RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-        }
-    }
-
-    public class ScriptRouteHandler : IRouteHandler
-    {
-        private readonly ScriptHandler _scriptHandler;
-
-        public ScriptRouteHandler(ScriptHandler scriptHandler)
-        {
-            _scriptHandler = scriptHandler;
-        }
-
-        public IHttpHandler GetHttpHandler(RequestContext requestContext)
-        {
-            return _scriptHandler;
         }
     }
 }
