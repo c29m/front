@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +45,13 @@
     <Compile Include="impl\CommonJsFormatter.cs" />
     <Compile Include="ICommonJsFormatter.cs" />
     <Compile Include="IModulePackager.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="impl\FrontConfigurator.cs" />
+    <Compile Include="IFrontConfigurator.cs" />
     <Compile Include="impl\ModulePathExtractor.cs" />
+    <Compile Include="impl\PathResolver.cs" />
+    <Compile Include="impl\ScriptHandler.cs" />
+    <Compile Include="impl\ScriptRouteHandler.cs" />
     <Compile Include="IPathResolver.cs" />
     <Compile Include="IScriptModuleRepository.cs" />
     <Compile Include="IScriptRepository.cs" />
@@ -56,6 +63,7 @@
     <Compile Include="impl\ScriptParser.cs" />
     <Compile Include="impl\ScriptRepository.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
