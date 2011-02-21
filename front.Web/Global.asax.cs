@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -24,9 +23,9 @@ namespace front.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            var route = new Route("script/{*script}", new ScriptRouteHandler(new ScriptHandler(
-                new CombiningModulePackager(new ScriptModuleRepository(new ScriptRepository(new PathResolver(WebConfigurationManager.AppSettings["root"])), new ModuleParser()), new CommonJsFormatter()), new ModulePathExtractor(WebConfigurationManager.AppSettings["pathPrefix"]))));
-            routes.Add(route);  
+            
+            front.Configuration.Initialize(config=> config.WithRootPath(WebConfigurationManager.AppSettings["root"]));
+
 
             routes.MapRoute(
                 "Default", // Route name

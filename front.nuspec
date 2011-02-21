@@ -1,0 +1,10 @@
+<package>
+  <metadata>
+    <id>front	</id>
+    <version>0.0.1</version>
+    <authors>Karl Bohlmark</authors>
+    <description>
+		front is a library for resolving commonjs modules with dependencies and packaging them in transport/d format
+    </description>
+  </metadata>
+</package>
