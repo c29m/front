@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2C55DEA-8405-44FE-BF78-7A6E018267CE}"
+	ProjectSection(SolutionItems) = preProject
+		default.ps1 = default.ps1
+		front.nuspec = front.nuspec
+		psake.ps1 = psake.ps1
+		psake_ext.ps1 = psake_ext.ps1
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "front.Tests", "front.Tests\front.Tests.csproj", "{5D57415E-E405-49B1-AD38-D272D3D6B4E5}"
 EndProject

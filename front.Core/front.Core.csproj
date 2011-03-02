@@ -46,8 +46,8 @@
     <Compile Include="ICommonJsFormatter.cs" />
     <Compile Include="IModulePackager.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="impl\FrontConfigurator.cs" />
-    <Compile Include="IFrontConfigurator.cs" />
+    <Compile Include="impl\FrontConfiguration.cs" />
+    <Compile Include="IFrontConfiguration.cs" />
     <Compile Include="impl\ModulePathExtractor.cs" />
     <Compile Include="impl\PathResolver.cs" />
     <Compile Include="impl\ScriptHandler.cs" />
