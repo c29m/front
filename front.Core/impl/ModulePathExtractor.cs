@@ -2,21 +2,22 @@
 {
     public class ModulePathExtractor : IModulePathExtractor
     {
-        private readonly string _pathPrefix;
+        private readonly string _scriptRoot;
 
-        public ModulePathExtractor(string pathPrefix)
+        public ModulePathExtractor(string scriptRoot)
         {
-            _pathPrefix = pathPrefix;
+            _scriptRoot = scriptRoot;
         }
 
         public string GetModuleIdentifier(string appRelativeCurrentExecutionFilePath)
         {
             string moduleIdentifier=appRelativeCurrentExecutionFilePath;
-            if (!string.IsNullOrWhiteSpace(_pathPrefix))
+            if (!string.IsNullOrWhiteSpace(_scriptRoot))
             {
-                if (moduleIdentifier.StartsWith(_pathPrefix))
-                    moduleIdentifier = moduleIdentifier.Substring(_pathPrefix.Length,
-                                                                  moduleIdentifier.Length - _pathPrefix.Length);
+                var prefix = "~/" + _scriptRoot;
+                if (moduleIdentifier.StartsWith(prefix))
+                    moduleIdentifier = moduleIdentifier.Substring(prefix.Length,
+                                                                  moduleIdentifier.Length - prefix.Length);
             }
             return moduleIdentifier;
         }

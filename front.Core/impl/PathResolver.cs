@@ -14,9 +14,9 @@ namespace front.Web
 
         public string GetScriptPath(string moduleIdentifier)
         {
-            var path =(string.IsNullOrEmpty(_rootPath) ? HttpContext.Current.Server.MapPath(moduleIdentifier) : 
-               _rootPath + "\\" +  moduleIdentifier.Replace("~/", "").Replace("/", "\\"))
-                + ".js";
+            var path = HttpContext.Current.Server.MapPath("~/" + _rootPath +  moduleIdentifier); 
+            if (!path.EndsWith(".js"))
+                path+=".js";
             return path;
         }
     }

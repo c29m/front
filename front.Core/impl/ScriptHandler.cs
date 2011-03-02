@@ -17,6 +17,12 @@ namespace front.Web
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/javascript";
+            var requestedPath = context.Request.AppRelativeCurrentExecutionFilePath;
+            var flags = context.Request.QueryString.ToString();
+            /*
+            if(flags.Contains("--bootstrap"))
+                context.Response.Write();
+            */
             context.Response.Write(_modulePackager.GetPackage(_modulePathExtractor.GetModuleIdentifier(context.Request.AppRelativeCurrentExecutionFilePath)));
         }
 
